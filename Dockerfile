@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:3.8-slim
 
 LABEL maintainer "ksurl"
 
@@ -7,9 +7,8 @@ ARG GID=1000
 
 WORKDIR /config
 
-RUN apt-get update && apt-get install -y python3-dev gcc && \
-    pip install --no-cache-dir -U pip setuptools && \
-    pip install --no-cache-dir -U flexget deluge-client pysftp==0.2.8
+RUN apt-get update && apt-get install -y gcc python3-dev && \
+    pip3 install --no-cache-dir flexget pysftp==0.2.8 transmissionrpc
 
 VOLUME /config /downloads
 

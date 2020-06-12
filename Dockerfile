@@ -7,11 +7,15 @@ ARG GID=1000
 
 WORKDIR /config
 
-RUN apt-get update && apt-get install -y gcc python3-dev && \
-    pip3 install --no-cache-dir flexget pysftp==0.2.8 transmissionrpc
+RUN apt-get update && apt-get install -y --no-install-recommends gcc python3-dev && \
+    pip install --no-cache-dir flexget pysftp==0.2.8 transmissionrpc && \
+    apt-get remove -y gcc python3-dev && apt autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
-VOLUME /config /downloads
+VOLUME /config /downloads /media
 
 USER ${UID}:${GID}
 
-CMD [ "rm", "-f", "/config/.config-lock", "2>", "/dev/null", "&&", "flexget", "daemon", "start", "--autoreload-config" ]
+EXPOSE 5050
+
+CMD [ "sh", "-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]

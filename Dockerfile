@@ -8,9 +8,8 @@ ARG GID=1000
 WORKDIR /config
 
 RUN apt-get update && apt-get install -y --no-install-recommends gcc python3-dev && \
-    pip install --no-cache-dir flexget pysftp==0.2.8 transmissionrpc && \
-    apt-get remove -y gcc python3-dev && apt autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    pip install --no-cache-dir flexget==3.1.56 pysftp==0.2.8 transmissionrpc && \
+    apt-get remove -y gcc python3-dev && apt autoremove -y && rm -rf /var/lib/apt/lists/*
 
 VOLUME /config /downloads /media
 

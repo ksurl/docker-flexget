@@ -1,0 +1,33 @@
+version: "2"
+services:
+  flexget:
+    image: ksurl/flexget:latest
+    container_name: flexget
+    hostname: flexget
+    command: ["sh","-c","ssh -f -N host && rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
+    networks:
+      local:
+        ipv4_address: 172.20.0.2 # set your own IP here if not using this subnet
+    ports:
+      - 5050:5050
+    environment:
+      - UID=1000
+      - GID=1000
+    volumes:
+      - <HOST>/config:/config
+      - <HOST>/ssh:/home/flexget/.ssh # optional if not using ssh/local portforward
+      - <HOST_MNT>/downloads/flexget:/downloads
+      - <HOST_MNT>/media:/media
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
+    restart: unless-stopped
+    
+networks:
+  local:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 # pick your own subnet and fill in gateway/range accordingly
+          gateway: 172.20.0.1
+          ip_range: 172.20.1.0/24 # pick a range outside of what you plan to use for static IP's

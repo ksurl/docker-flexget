@@ -13,10 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends gcc python3-dev
 
 RUN useradd -m -u ${UID} flexget
 
-VOLUME /config /downloads /media /home/flexget/.ssh /etc/localtime
+VOLUME /config /downloads /media /home/flexget/.ssh
 
 USER flexget
 
 EXPOSE 5050
 
-CMD [ "sh", "-c","ssh -f -N host -f && rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
+CMD [ "sh", "-c","ssh -f -N host && rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]

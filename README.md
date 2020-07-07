@@ -16,7 +16,6 @@ Defaults to current user for UID
         -v HOST_DOWNLOADS:/downloads \
         -v HOST_MEDIA:/media \
         -v HOST_CONFIG:/config \
-        -v HOST_SSH_DOCKER:/home/flexget/.ssh \
         -v /etc/localtime:/etc/localtime:ro
         -p 5050:5050
         -e UID=HOST_UID \
@@ -31,7 +30,7 @@ Defaults to current user for UID
         image: ksurl/flexget:latest
         container_name: flexget
         hostname: flexget
-        command: ["sh","-c","ssh -f -N host && rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
+        command: ["sh","-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
         networks:
           local:
             ipv4_address: 172.20.0.2 # set your own IP here if not using this subnet
@@ -42,7 +41,6 @@ Defaults to current user for UID
           - GID=1000
         volumes:
           - <HOST>/config:/config
-          - <HOST>/ssh:/home/flexget/.ssh # optional if not using ssh/local portforward
           - <HOST_MNT>/downloads/flexget:/downloads
           - <HOST_MNT>/media:/media
           - /etc/localtime:/etc/localtime:ro
@@ -50,6 +48,23 @@ Defaults to current user for UID
           com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
         restart: unless-stopped
         
+      tunnel:
+        image: jossec101/sshtunneller:latest
+        container_name: tunnel
+        networks:
+          local:
+            ipv4_address: 172.20.0.3 # set your own IP here if not using this subnet
+        environment:
+          - ssh_host=<REMOTE_SERVER_IP>
+          - ssh_port=22 # change if not default port
+          - ssh_username=<REMOTE_USERNAME>
+          - ssh_private_key_password=<SSH_PRIVATE_KEY_PASSWORD>
+          - remote_bind_addresses=[("127.0.0.1",9091)] # change port, add additional with comma separation
+          - local_bind_addresses=[("172.20.0.3",9091)] # change port, add additional with comma separation
+        volumes:
+          - <HOST>/key:/private.key
+        restart: unless-stopped
+
     networks:
       local:
         driver: bridge
@@ -63,10 +78,6 @@ Defaults to current user for UID
 # Notes
 
 Add custom log location with custom CMD e.g. `flexget -l /path/flexget.log daemon start --autoreload-config`
-
-The ssh folder expects a config file with a Host named tunnel and a known_hosts file (create by connecting to remote host on docker host and moving to docker ssh folder location)
-
-Use separate a Host for ssh commands in tasks
 
 The tunnel is primarily used for transmission access (no reverse proxy needed)
 

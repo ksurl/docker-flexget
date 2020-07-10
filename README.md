@@ -3,7 +3,6 @@
 * Based on python:3.8-slim
 * transmissionrpc
 * pysftp
-* openssh-client
 
 Defaults to current user for UID
 
@@ -36,9 +35,6 @@ Defaults to current user for UID
             ipv4_address: 172.20.0.2 # set your own IP here if not using this subnet
         ports:
           - 5050:5050
-        environment:
-          - UID=1000
-          - GID=1000
         volumes:
           - <HOST>/config:/config
           - <HOST_MNT>/downloads/flexget:/downloads

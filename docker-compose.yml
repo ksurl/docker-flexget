@@ -1,10 +1,9 @@
 version: "2"
 services:
   flexget:
-    image: flexget:latest
+    image: ksurl/flexget:latest
     container_name: flexget
     hostname: flexget
-    command: ["sh","-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
     networks:
       local:
         ipv4_address: 172.20.0.2 # set your own IP here if not using this subnet
@@ -35,7 +34,7 @@ services:
     volumes:
      - <HOST>/key:/private.key
     restart: unless-stopped
-    
+
 networks:
   local:
     driver: bridge

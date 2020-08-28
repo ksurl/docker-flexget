@@ -4,7 +4,7 @@
 * transmissionrpc
 * pysftp
 
-Defaults to current user for UID
+Defaults to 1000 for UID
 
 # Usage
 
@@ -17,14 +17,14 @@ Defaults to current user for UID
         -v HOST_CONFIG:/config \
         -v /etc/localtime:/etc/localtime:ro
         -p 5050:5050
-        flexget
+        ksurl/flexget:latest
 
 ## docker-compose 
 
     version: "2"
     services:
       flexget:
-        image: flexget:latest
+        image: ksurl/flexget:latest
         container_name: flexget
         hostname: flexget
         command: ["sh","-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]

@@ -15,7 +15,7 @@ Defaults to 1000 for UID
         -v HOST_DOWNLOADS:/downloads \
         -v HOST_MEDIA:/media \
         -v HOST_CONFIG:/config \
-        -v /etc/localtime:/etc/localtime:ro
+        -v /etc/timezone:/etc/timezone:ro
         -p 5050:5050
         ksurl/flexget:latest
 
@@ -37,7 +37,7 @@ Defaults to 1000 for UID
           - <HOST>/config:/config
           - <HOST_MNT>/downloads/flexget:/downloads
           - <HOST_MNT>/media:/media
-          - /etc/localtime:/etc/localtime:ro
+          - /etc/timezone:/etc/timezone:ro
         labels:
           com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
         restart: unless-stopped

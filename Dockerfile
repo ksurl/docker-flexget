@@ -1,5 +1,7 @@
 FROM python:alpine
 
+LABEL org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
+
 LABEL maintainer="ksurl"
 
 ARG UID=1000

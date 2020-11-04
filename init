@@ -7,7 +7,7 @@ if [ ! -f /config/config.yml ]; then
   exit
 fi
 
-cp "/usr/share/zoneinfo/${TZ:-America/Los_Angeles}" /etc/localtime && echo "${TZ:-America/Los_Angeles}" > /etc/timezone
+cp "/usr/share/zoneinfo/${TZ:-UTC}" /etc/localtime && echo "${TZ:-UTC}" > /etc/timezone
 LOGFILE="--logfile ${LOG_FILE:-/config/flexget.log}"
 LOGLEVEL="--loglevel ${LOG_LEVEL:-info}"
 

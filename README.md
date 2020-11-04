@@ -4,8 +4,6 @@
 * transmissionrpc
 * pysftp
 
-Defaults to 1000 for UID
-
 # Usage
 
 ## docker cli
@@ -15,8 +13,12 @@ Defaults to 1000 for UID
         -v HOST_DOWNLOADS:/downloads \
         -v HOST_MEDIA:/media \
         -v HOST_CONFIG:/config \
-        -v /etc/timezone:/etc/timezone:ro
-        -p 5050:5050
+        -e LOG_FILE=/config/flexget.log
+        -e LOG_LEVEL=info \
+        -e PUID=1000
+        -e PGID=1000
+        -e TZ=UTC \
+        -p 5050:5050 \
         ksurl/flexget:latest
 
 ## docker-compose 
@@ -27,52 +29,31 @@ Defaults to 1000 for UID
         image: ksurl/flexget:latest
         container_name: flexget
         hostname: flexget
-        command: ["sh","-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
-        networks:
-          local:
-            ipv4_address: 172.20.0.2 # set your own IP here if not using this subnet
+        environment:
+          - LOG_FILE=/config/flexget.log
+          - LOG_LEVEL=info
+          - PUID=1000
+          - PGID=1000
+          - TZ=UTC
         ports:
           - 5050:5050
         volumes:
           - <HOST>/config:/config
           - <HOST_MNT>/downloads/flexget:/downloads
           - <HOST_MNT>/media:/media
-          - /etc/timezone:/etc/timezone:ro
         labels:
           com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
         restart: unless-stopped
-        
-      tunnel:
-        image: jossec101/sshtunneller:latest
-        container_name: tunnel
-        networks:
-          local:
-            ipv4_address: 172.20.0.3 # set your own IP here if not using this subnet
-        environment:
-          - ssh_host=<REMOTE_SERVER_IP>
-          - ssh_port=22 # change if not default port
-          - ssh_username=<REMOTE_USERNAME>
-          - ssh_private_key_password=<SSH_PRIVATE_KEY_PASSWORD>
-          - remote_bind_addresses=[("127.0.0.1",9091)] # change port, add additional with comma separation
-          - local_bind_addresses=[("172.20.0.3",9091)] # change port, add additional with comma separation
-        volumes:
-          - <HOST>/key:/private.key
-        restart: unless-stopped
 
-    networks:
-      local:
-        driver: bridge
-        ipam:
-          config:
-            - subnet: 172.20.0.0/16 # pick your own subnet and fill in gateway/range accordingly
-              gateway: 172.20.0.1
-              ip_range: 172.20.1.0/24 # pick a range outside of what you plan to use for static IP's
+## Parameters
 
-
-# Notes
-
-Add custom log location with custom CMD e.g. `flexget -l /path/flexget.log daemon start --autoreload-config`
-
-The tunnel is primarily used for transmission access (no reverse proxy needed)
-
-Local port forward requires binding to docker network IP, not localhost/127.0.0.1 so use a static IP in your compose file
+| Parameter | Function |
+| :----: | --- |
+| `-e LOG_FILE=/config/flexget.log` | Set log file location |
+| `-e LOG_LEVEL=info` | Set log level |
+| `-e PUID=1000` | Set uid |
+| `-e PGID=1000` | Set gid |
+| `-e TZ=UTC` | Specify a timezone to use |
+| `-v /config` | Default config folder location |
+| `-v /downloads` | Downloads go here |
+| `-v /media` | Media goes here |

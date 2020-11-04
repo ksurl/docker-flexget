@@ -1,23 +1,33 @@
-FROM python:alpine
+FROM    python:alpine
 
-LABEL org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
+LABEL   org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 
-LABEL maintainer="ksurl"
-
-ARG UID=1000
-ARG GID=1000
+LABEL   maintainer="ksurl"
 
 WORKDIR /config
 
-EXPOSE 5050
+VOLUME  /config /downloads /media
 
-VOLUME /config /downloads /media
+EXPOSE  5050
 
-RUN apk add --no-cache --virtual .build-deps gcc make python3-dev libffi-dev musl-dev && \
-    apk add --no-cache --virtual .run-deps libressl-dev netcat-openbsd && \
-    pip install --no-cache-dir pysftp==0.2.8 transmissionrpc flexget && \
-    apk del --purge --no-cache .build-deps
+RUN     apk add --no-cache --virtual .build-deps \
+            gcc \
+            make \
+            libffi-dev \
+            musl-dev && \
+        apk add --no-cache --virtual .run-deps \
+            tzdata \
+            libressl-dev \
+            su-exec \
+            netcat-openbsd && \
+        pip install --no-cache-dir \
+            pysftp==0.2.8 \
+            transmissionrpc \
+            flexget && \
+        apk del --purge --no-cache .build-deps && \
+        rm -rf /tmp/* /root/.cache
 
-USER ${UID}:${GID}
+COPY    init /init
+RUN     chmod +x /init
 
-CMD [ "sh", "-c","rm -f /config/.config-lock 2> /dev/null && flexget daemon start --autoreload-config" ]
+CMD     [ "/init" ]

@@ -11,4 +11,16 @@ cp "/usr/share/zoneinfo/${TZ:-UTC}" /etc/localtime && echo "${TZ:-UTC}" > /etc/t
 LOGFILE="--logfile ${LOG_FILE:-/config/flexget.log}"
 LOGLEVEL="--loglevel ${LOG_LEVEL:-info}"
 
+case ${VERSION} in
+  latest)
+    pip install -U flexget
+    ;;
+  +([0-9]).+([0-9]).+([0-9]))
+    pip install -U "flexget==${VERSION}"
+    ;;
+  *)
+    flexget -V
+    ;;
+esac
+
 su-exec ${PUID:-1000}:${PGID:-1000} /usr/local/bin/flexget $LOGFILE $LOGLEVEL daemon start --autoreload-config

@@ -21,9 +21,9 @@ RUN         apk add --no-cache --virtual .build-deps \
                 su-exec \
                 netcat-openbsd && \
             pip install --no-cache-dir \
+                flexget \
                 pysftp==0.2.8 \
-                transmission-rpc \
-                flexget && \
+                transmission-rpc && \
             apk del --purge --no-cache .build-deps && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 

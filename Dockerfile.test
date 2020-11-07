@@ -1,7 +1,5 @@
 FROM        python:alpine
 
-LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
-
 LABEL       maintainer="ksurl"
 
 WORKDIR     /config
@@ -14,17 +12,21 @@ RUN         apk add --no-cache --virtual .build-deps \
                 gcc \
                 make \
                 libffi-dev \
-                musl-dev && \
-            apk add --no-cache --virtual .run-deps \
+                musl-dev
+
+RUN         apk add --no-cache --virtual .run-deps \
                 tzdata \
                 libressl-dev \
                 su-exec \
-                netcat-openbsd && \
-            pip install --no-cache-dir \
+                netcat-openbsd
+
+RUN         pip install --no-cache-dir \
                 pysftp==0.2.8 \
-                transmission-rpc \
-                flexget && \
-            apk del --purge --no-cache .build-deps && \
+                transmission-rpc
+
+RUN         apk del --purge --no-cache .build-deps
+
+RUN         pip install --no-cache-dir flexget && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
 COPY        init /init

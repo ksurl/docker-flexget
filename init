@@ -1,26 +1,46 @@
 #!/bin/sh
 
+echo "Cleaning up config lock."
 rm -f /config/.config-lock 2> /dev/null 
 
 if [ ! -f /config/config.yml ]; then
-  echo "no config file found."
+  echo "No config file found. Exiting..."
   exit
 fi
 
+if [ ! -z ${PIP_PGKS} ]; then
+  echo "Installing pip packages."
+  pip install --no-cache-dir ${PIP_PGKS}
+fi
+
+if [ ! -z ${APK_PKGS} ]; then
+  echo "Installing system packages."
+  apk install --no-cache ${APK_PKGS}
+fi
+
+echo "Setting timezone to $TZ."
 cp "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
-LOGFILE="--logfile ${LOG_FILE}"
-LOGLEVEL="--loglevel ${LOG_LEVEL}"
 
 case ${VERSION} in
   latest)
+    echo "Updating to latest version of FlexGet."
     pip install -U flexget
     ;;
   "")
+    echo "Checking FlexGet version..."
     flexget -V
     ;;
   *)
+    echo "Installing FlexGet $VERSION."
     pip install -U "flexget==${VERSION}"
     ;;
 esac
 
-su-exec ${PUID}:${PGID} /usr/local/bin/flexget -c /config/config.yml $LOGFILE $LOGLEVEL daemon start --autoreload-config
+echo "Starting FlexGet..."
+su-exec ${PUID}:${PGID} \
+  /usr/local/bin/flexget \
+  -c /config/config.yml \
+  --logfile ${LOG_FILE} \
+  --loglevel ${LOGLEVEL} \
+  daemon start \
+  --autoreload-config

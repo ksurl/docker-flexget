@@ -37,10 +37,4 @@ case ${VERSION} in
 esac
 
 echo "Starting FlexGet..."
-su-exec ${PUID}:${PGID} \
-  /usr/local/bin/flexget \
-  -c /config/config.yml \
-  --logfile ${LOG_FILE} \
-  --loglevel ${LOGLEVEL} \
-  daemon start \
-  --autoreload-config
+su-exec ${PUID}:${PGID} /usr/local/bin/flexget -c /config/config.yml --logfile ${LOG_FILE} --loglevel ${LOG_LEVEL} daemon start --autoreload-config

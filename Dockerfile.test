@@ -40,4 +40,5 @@ RUN         pip install --no-cache-dir flexget && \
 COPY        init /init
 RUN         chmod +x /init
 
-ENTRYPOINT  [ "/usr/local/bin/dumb-init", "/init" ]
+ENTRYPOINT  [ "/usr/local/bin/dumb-init", "--" ]
+CMD [ "/init" ]

@@ -39,4 +39,5 @@ RUN         apk add --no-cache --virtual .build-deps \
 COPY        init /init
 RUN         chmod +x /init
 
-ENTRYPOINT  [ "/usr/local/bin/dumb-init", "/init" ]
+ENTRYPOINT  [ "/usr/local/bin/dumb-init", "--" ]
+CMD         [ "/init" ]

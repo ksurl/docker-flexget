@@ -15,11 +15,11 @@ case ${VERSION} in
   latest)
     pip install -U flexget
     ;;
-  +([0-9]).+([0-9]).+([0-9]))
-    pip install -U "flexget==${VERSION}"
+  "")
+    flexget -V
     ;;
   *)
-    flexget -V
+    pip install -U "flexget==${VERSION}"
     ;;
 esac
 

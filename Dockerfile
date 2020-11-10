@@ -10,14 +10,14 @@ VOLUME      /config /downloads /media
 
 EXPOSE      5050
 
-ENV         APK_PKGS \
+ENV         APK_PKGS="" \
             LOG_FILE=/config/flexget.log \
             LOG_LEVEL=info \
-            PIP_PKGS \
+            PIP_PKGS="" \
             PUID=1000 \
             PGID=1000 \
             TZ=UTC \
-            VERSION
+            VERSION=""
 
 RUN         apk add --no-cache --virtual .build-deps \
                 gcc \

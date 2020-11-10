@@ -18,7 +18,7 @@
         -e PUID=1000
         -e PGID=1000
         -e TZ=UTC \
-        -e VERSION=""
+        -e VERSION=latest \
         -p 5050:5050 \
         ksurl/flexget
 
@@ -35,7 +35,7 @@
           - PUID=1000
           - PGID=1000
           - TZ=UTC
-          - VERSION=""
+          - VERSION=latest
         ports:
           - 5050:5050
         volumes:
@@ -48,14 +48,16 @@
 
 ## Parameters
 
-| Parameter | Function |
-| :----: | --- |
-| `-e LOG_FILE=/config/flexget.log` | Set log file location |
-| `-e LOG_LEVEL=info` | Set log level |
-| `-e PUID=1000` | Set uid |
-| `-e PGID=1000` | Set gid |
-| `-e TZ=UTC` | Specify a timezone to use |
-| `-e VERSION=""` | Specify a version to use. Valid input: `<blank>` (defaults to version installed since last build), "latest", `<specific version>` |
-| `-v /config` | Default config folder location |
-| `-v /downloads` | Downloads go here |
-| `-v /media` | Media goes here |
+| Parameter | Function | Default |
+| :----: | --- | --- |
+| `-e APK_PKGS` | Optional: additional alpine packages to install | None |
+| `-e LOG_FILE` | Set log file location | `/config/flexget.log` |
+| `-e LOG_LEVEL` | Set log level | `info` |
+| `-e PIP_PKGS` | Optional: additional pip packages to install | None |
+| `-e PUID` | Set uid | `1000` |
+| `-e PGID` | Set gid | `1000` |
+| `-e TZ` | Specify a timezone to use | `UTC` |
+| `-e VERSION` | Optional: Specify a version to use (defaults to installed version from build time). Valid input: `latest`, `<specific version>` | None |
+| `-v /config` | Config folder goes here | |
+| `-v /downloads` | Downloads go here | |
+| `-v /media` | Media goes here | |

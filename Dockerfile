@@ -26,7 +26,6 @@ RUN         apk add --no-cache --virtual .build-deps \
                 musl-dev && \
             apk add --no-cache --virtual .run-deps \
                 libressl-dev \
-                netcat-openbsd \
                 su-exec \
                 tzdata && \
             pip install --no-cache-dir \

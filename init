@@ -19,7 +19,7 @@ if [ ! -z ${APK_PKGS} ]; then
 fi
 
 echo "Setting timezone to $TZ."
-cp "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
+cp -f "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
 
 case ${VERSION} in
   latest)

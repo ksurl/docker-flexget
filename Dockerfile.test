@@ -8,6 +8,13 @@ VOLUME      /config /downloads /media
 
 EXPOSE      5050
 
+ENV         LOG_FILE=/config/flexget.log \
+            LOG_LEVEL=info \
+            PUID=1000 \
+            PGID=1000 \
+            TZ=UTC \
+            VERSION=""
+
 RUN         apk add --no-cache --virtual .build-deps \
                 gcc \
                 make \
@@ -21,8 +28,9 @@ RUN         apk add --no-cache --virtual .run-deps \
                 netcat-openbsd
 
 RUN         pip install --no-cache-dir \
+                dumb-init \
                 pysftp==0.2.8 \
-                transmission-rpc
+                transmissionrpc
 
 RUN         apk del --purge --no-cache .build-deps
 
@@ -32,4 +40,4 @@ RUN         pip install --no-cache-dir flexget && \
 COPY        init /init
 RUN         chmod +x /init
 
-ENTRYPOINT  [ "/init" ]
+ENTRYPOINT  [ "/usr/local/bin/dumb-init", "/init" ]

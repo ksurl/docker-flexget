@@ -7,9 +7,9 @@ if [ ! -f /config/config.yml ]; then
   exit
 fi
 
-cp "/usr/share/zoneinfo/${TZ:-UTC}" /etc/localtime && echo "${TZ:-UTC}" > /etc/timezone
-LOGFILE="--logfile ${LOG_FILE:-/config/flexget.log}"
-LOGLEVEL="--loglevel ${LOG_LEVEL:-info}"
+cp "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
+LOGFILE="--logfile ${LOG_FILE}"
+LOGLEVEL="--loglevel ${LOG_LEVEL}"
 
 case ${VERSION} in
   latest)
@@ -23,4 +23,4 @@ case ${VERSION} in
     ;;
 esac
 
-su-exec ${PUID:-1000}:${PGID:-1000} /usr/local/bin/flexget -c /config/config.yml $LOGFILE $LOGLEVEL daemon start --autoreload-config
+su-exec ${PUID}:${PGID} /usr/local/bin/flexget -c /config/config.yml $LOGFILE $LOGLEVEL daemon start --autoreload-config

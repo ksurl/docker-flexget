@@ -40,7 +40,7 @@ RUN         chmod +x /init && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
 HEALTHCHECK --interval=60s --timeout=15s --start-period=5s --retries=3 \
-            CMD [ "/bin/sh", "-c", "/bin/netstat -lntp | /bin/grep -q '0\.0\.0\.0:5050'" ]
+            CMD [ "/bin/sh", "-c", "/usr/local/bin/flexget daemon status | /bin/grep -q 'Daemon running'" ]
 
 ENTRYPOINT  [ "/usr/bin/dumb-init", "--" ]
 CMD         [ "/init" ]

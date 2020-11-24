@@ -19,25 +19,25 @@ ENV         APK_PKGS="" \
             TZ=UTC \
             VERSION=""
 
-RUN         apk add --no-cache --virtual .build-deps \
+COPY        init /init
+
+RUN         chmod +x /init && \
+            apk add --no-cache --virtual .build-deps \
                 gcc \
                 make \
                 libffi-dev \
                 musl-dev && \
             apk add --no-cache --virtual .run-deps \
+                dumb-init \
                 libressl-dev \
                 su-exec \
                 tzdata && \
             pip install --no-cache-dir \
-                dumb-init \
                 flexget \
                 pysftp==0.2.8 \
                 transmissionrpc && \
             apk del --purge --no-cache .build-deps && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
-COPY        init /init
-RUN         chmod +x /init
-
-ENTRYPOINT  [ "/usr/local/bin/dumb-init", "--" ]
+ENTRYPOINT  [ "/usr/bin/dumb-init", "--" ]
 CMD         [ "/init" ]

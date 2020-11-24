@@ -39,5 +39,8 @@ RUN         chmod +x /init && \
             apk del --purge --no-cache .build-deps && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
+HEALTHCHECK --interval=60s --timeout=15s --start-period=5s --retries=3 \
+            CMD [ "/bin/sh", "-c", "/bin/netstat -lntp | /bin/grep -q '0\.0\.0\.0:5050'" ]
+
 ENTRYPOINT  [ "/usr/bin/dumb-init", "--" ]
 CMD         [ "/init" ]

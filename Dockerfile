@@ -34,7 +34,6 @@ RUN         chmod +x /init && \
                 tzdata && \
             pip install --no-cache-dir \
                 flexget \
-                pysftp==0.2.8 \
                 transmissionrpc && \
             apk del --purge --no-cache .build-deps && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache

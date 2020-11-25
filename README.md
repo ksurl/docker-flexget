@@ -2,7 +2,6 @@
 
 * Based on python:alpine
 * transmissionrpc
-* pysftp
 
 # Usage
 

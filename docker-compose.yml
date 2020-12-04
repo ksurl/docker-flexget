@@ -16,6 +16,4 @@ services:
       - <HOST>/config:/config
       - <HOST_MNT>/downloads/flexget:/downloads
       - <HOST_MNT>/media:/media
-    labels:
-      com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
     restart: unless-stopped

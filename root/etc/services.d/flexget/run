@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv bash
+
+exec \
+      s6-setuidgid abc /usr/bin/flexget -c /config/config.yml \
+      --logfile ${LOG_FILE} --loglevel ${LOG_LEVEL} daemon start --autoreload-config

@@ -1,0 +1,25 @@
+#!/usr/bin/with-contenv bash
+
+# lock file cleanup
+rm -f /config/.config-lock 2>/dev/null
+
+# default config
+if [ ! -f /config/config.yml ]; then
+  cp -f /defaults/config.yml /config/config.yml
+fi
+
+# set flexget version to install
+case ${VERSION} in
+  latest)
+    echo "Updating to latest version of FlexGet."
+    pip install -U flexget
+    ;;
+  "")
+    echo "Checking FlexGet version..."
+    flexget -V
+    ;;
+  *)
+    echo "Installing FlexGet $VERSION."
+    pip install -U "flexget==${VERSION}"
+    ;;
+esac

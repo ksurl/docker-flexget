@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/github/v/tag/ksurl/docker-flexget?label=image%20version&logo=docker)](https://hub.docker.com/r/ksurl/flexget) [![](https://img.shields.io/docker/image-size/ksurl/flexget/latest?color=lightgrey&logo=Docker)]() [![](https://img.shields.io/github/workflow/status/ksurl/docker-flexget/build?label=build&logo=Docker)](https://github.com/ksurl/docker-flexget/actions?query=workflow%3Abuild)
 
-* Based on python:alpine
+* Based on ghcr.io/linuxserver/baseimage-alpine:3.12
 * transmissionrpc
 
 # Usage
@@ -45,18 +45,14 @@
           - <HOST>/config:/config
           - <HOST_MNT>/downloads/flexget:/downloads
           - <HOST_MNT>/media:/media
-        labels:
-          com.centurylinklabs.watchtower.enable: "false" # no autoupdate from watchtower
         restart: unless-stopped
 
 ## Parameters
 
 | Parameter | Function | Default |
 | :----: | --- | --- |
-| `-e APK_PKGS` | Optional: additional alpine packages to install | None |
 | `-e LOG_FILE` | Set log file location | `/config/flexget.log` |
 | `-e LOG_LEVEL` | Set log level | `info` |
-| `-e PIP_PKGS` | Optional: additional pip packages to install | None |
 | `-e PUID` | Set uid | `1000` |
 | `-e PGID` | Set gid | `1000` |
 | `-e TZ` | Specify a timezone to use | `UTC` |

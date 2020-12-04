@@ -8,6 +8,10 @@ if [ ! -f /config/config.yml ]; then
   cp -f /defaults/config.yml /config/config.yml
 fi
 
+# permissions
+chown -R abc:abc /config
+chown abc:abc /downloads
+
 # set flexget version to install
 case ${VERSION} in
   latest)

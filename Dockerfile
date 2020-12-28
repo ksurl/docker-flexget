@@ -16,21 +16,24 @@ RUN         echo "**** install build packages ****" && \
                 gcc \
                 libffi-dev \
                 make \
-                musl-dev && \
+                musl-dev \
+                python3-dev && \
             echo "**** install packages ****" && \
             apk add --no-cache \
                 libressl-dev \
                 py3-pip \
-                python3 && \
+                py3-virtualenv && \
             echo "**** install flexget ****" && \
             if [ -z ${FLEXGET_VERSION} ]; then \
                 FLEXGET_VERSION=$(curl -sX GET "https://api.github.com/repos/Flexget/Flexget/releases/latest" \
                 | grep "tag_name" \
                 | sed -e 's/.*v//' -e 's/",//'); \
             fi && \
-            pip install --no-cache-dir \
-                transmissionrpc \
-                flexget==${FLEXGET_VERSION} && \
+            virtualenv /venv && \
+            /venv/bin/pip install --no-cache-dir \
+                flexget==${FLEXGET_VERSION} \
+                transmission-rpc && \
+            ln -s /venv/bin/flexget /usr/local/bin/ && \
             echo "**** cleanup ****" && \
             apk del --purge \
                 build-dependencies && \

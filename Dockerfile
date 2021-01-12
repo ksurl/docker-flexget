@@ -1,4 +1,4 @@
-FROM        ghcr.io/linuxserver/baseimage-alpine:3.12
+FROM        ghcr.io/ksurl/baseimage-python-alpine
 
 LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 
@@ -19,9 +19,7 @@ RUN         echo "**** install build packages ****" && \
                 musl-dev && \
             echo "**** install packages ****" && \
             apk add --no-cache \
-                libressl-dev \
-                py3-pip \
-                python3 && \
+                libressl-dev && \
             echo "**** install flexget ****" && \
             if [ -z ${FLEXGET_VERSION} ]; then \
                 FLEXGET_VERSION=$(curl -sX GET "https://api.github.com/repos/Flexget/Flexget/releases/latest" \
@@ -29,11 +27,10 @@ RUN         echo "**** install build packages ****" && \
                 | sed -e 's/.*v//' -e 's/",//'); \
             fi && \
             pip install --no-cache-dir \
-                transmissionrpc \
-                flexget==${FLEXGET_VERSION} && \
+                flexget==${FLEXGET_VERSION} \
+                transmission-rpc && \
             echo "**** cleanup ****" && \
-            apk del --purge \
-                build-dependencies && \
+            apk del --purge build-dependencies && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
 COPY        root/ /

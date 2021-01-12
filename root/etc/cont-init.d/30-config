@@ -1,5 +1,9 @@
 #!/usr/bin/with-contenv bash
 
+# set timezone
+echo "Setting timezone to $TZ."
+cp -f "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
+
 # lock file cleanup
 rm -f /config/.config-lock 2>/dev/null
 

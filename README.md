@@ -4,8 +4,8 @@
 
 [![](https://img.shields.io/github/v/tag/ksurl/docker-flexget?label=image%20version&logo=docker)](https://hub.docker.com/r/ksurl/flexget) [![](https://img.shields.io/docker/image-size/ksurl/flexget/latest?color=lightgrey&logo=Docker)]() [![](https://img.shields.io/github/workflow/status/ksurl/docker-flexget/build?label=build&logo=Docker)](https://github.com/ksurl/docker-flexget/actions?query=workflow%3Abuild)
 
-* Based on ghcr.io/linuxserver/baseimage-alpine:3.12
-* transmissionrpc
+* Based on ghcr.io/ksurl/baseimage-python-alpine
+* transmission-rpc
 
 # Usage
 
@@ -23,14 +23,14 @@
         -e TZ=UTC \
         -e VERSION=latest \
         -p 5050:5050 \
-        ksurl/flexget
+        ghcr.io/ksurl/flexget
 
 ## docker-compose 
 
     version: "2"
     services:
       flexget:
-        image: ksurl/flexget
+        image: ghcr.io/ksurl/flexget
         container_name: flexget
         environment:
           - LOG_FILE=/config/flexget.log

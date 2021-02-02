@@ -27,7 +27,7 @@
 
 ## docker-compose 
 
-    version: "2"
+    version: "3.8"
     services:
       flexget:
         image: ghcr.io/ksurl/flexget

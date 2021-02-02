@@ -1,7 +1,7 @@
-version: "2"
+version: "3.8"
 services:
   flexget:
-    image: ghcr.io/ksurl/flexget:latest
+    image: ghcr.io/ksurl/flexget
     container_name: flexget
     environment:
       - LOG_FILE=/config/flexget.log

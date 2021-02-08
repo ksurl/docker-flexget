@@ -6,8 +6,11 @@ LABEL       maintainer="ksurl"
 
 ARG         FLEXGET_VERSION
 
+WORKDIR     /config
+
 ENV         LOG_FILE=/config/flexget.log \
             LOG_LEVEL=info \
+            TERM=xterm-256color \
             VERSION=""
 
 RUN         echo "**** install build packages ****" && \

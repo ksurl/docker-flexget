@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=UTC
-      - VERSION=latest
+      - VERSION=docker
     ports:
       - 5050:5050
     volumes:

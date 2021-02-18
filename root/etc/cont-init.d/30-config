@@ -22,7 +22,7 @@ case ${VERSION} in
     echo "Updating to latest version of FlexGet."
     pip install -U flexget
     ;;
-  "")
+  docker)
     echo "Checking FlexGet version..."
     flexget -V
     ;;

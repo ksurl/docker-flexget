@@ -21,7 +21,7 @@
         -e PUID=1000
         -e PGID=1000
         -e TZ=UTC \
-        -e VERSION=latest \
+        -e VERSION=docker \
         -p 5050:5050 \
         ghcr.io/ksurl/flexget
 
@@ -56,7 +56,7 @@
 | `-e PUID` | Set uid | `1000` |
 | `-e PGID` | Set gid | `1000` |
 | `-e TZ` | Specify a timezone to use | `UTC` |
-| `-e VERSION` | Optional: Specify a version to use (defaults to installed version from build time). Valid input: `latest`, `<specific version>` | None |
+| `-e VERSION` | Optional: Specify a version to use (defaults to installed version from build time). Valid input: `latest`, `docker`, `<specific version>` | `docker` |
 | `-v /config` | Config folder goes here | |
 | `-v /downloads` | Downloads go here | |
 | `-v /media` | Media goes here | |

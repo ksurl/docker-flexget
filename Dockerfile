@@ -11,7 +11,7 @@ WORKDIR     /config
 ENV         LOG_FILE=/config/flexget.log \
             LOG_LEVEL=info \
             TERM=xterm-256color \
-            VERSION=""
+            VERSION=docker
 
 RUN         echo "**** install build packages ****" && \
             apk add --no-cache --virtual=build-dependencies \

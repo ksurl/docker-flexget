@@ -5,11 +5,12 @@
 [![](https://img.shields.io/github/v/tag/ksurl/docker-flexget?label=image%20version&logo=docker)](https://hub.docker.com/r/ksurl/flexget) [![](https://img.shields.io/docker/image-size/ksurl/flexget/latest?color=lightgrey&logo=Docker)]() [![](https://img.shields.io/github/workflow/status/ksurl/docker-flexget/build?label=build&logo=Docker)](https://github.com/ksurl/docker-flexget/actions?query=workflow%3Abuild)
 
 * Based on ghcr.io/ksurl/baseimage-python-alpine
+* pysocks
 * transmission-rpc
 
-# Usage
+## Usage
 
-## docker cli
+### docker cli
 
     docker run -d \
         --name=CONTAINER_NAME \
@@ -25,7 +26,7 @@
         -p 5050:5050 \
         ghcr.io/ksurl/flexget
 
-## docker-compose 
+### docker-compose
 
     version: "3.8"
     services:
@@ -38,7 +39,7 @@
           - PUID=1000
           - PGID=1000
           - TZ=UTC
-          - VERSION=latest
+          - VERSION=docker
         ports:
           - 5050:5050
         volumes:
@@ -47,7 +48,7 @@
           - <HOST_MNT>/media:/media
         restart: unless-stopped
 
-## Parameters
+### Parameters
 
 | Parameter | Function | Default |
 | :----: | --- | --- |

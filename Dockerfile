@@ -22,6 +22,7 @@ RUN         echo "**** install build packages ****" && \
                 musl-dev && \
             echo "**** install packages ****" && \
             apk add --no-cache \
+                g++ \
                 libressl-dev && \
             echo "**** install flexget ****" && \
             if [ -z ${FLEXGET_VERSION} ]; then \
@@ -31,6 +32,7 @@ RUN         echo "**** install build packages ****" && \
             fi && \
             pip install --no-cache-dir \
                 flexget==${FLEXGET_VERSION} \
+                pysocks \
                 transmission-rpc && \
             echo "**** cleanup ****" && \
             apk del --purge build-dependencies && \

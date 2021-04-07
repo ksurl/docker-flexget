@@ -15,13 +15,13 @@ ENV         LOG_FILE=/config/flexget.log \
 
 RUN         echo "**** install build packages ****" && \
             apk add --no-cache --virtual=build-dependencies \
-                curl \
                 gcc \
                 libffi-dev \
                 make \
                 musl-dev && \
             echo "**** install packages ****" && \
             apk add --no-cache \
+                curl \
                 g++ \
                 libressl-dev && \
             echo "**** install flexget ****" && \

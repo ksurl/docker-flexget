@@ -16,6 +16,7 @@ ENV         LOG_FILE=/config/flexget.log \
 RUN         echo "**** install build packages ****" && \
             apk add --no-cache --virtual=build-dependencies \
                 gcc \
+                jq \
                 libffi-dev \
                 make \
                 musl-dev && \
@@ -27,8 +28,8 @@ RUN         echo "**** install build packages ****" && \
             echo "**** install flexget ****" && \
             if [ -z ${FLEXGET_VERSION} ]; then \
                 FLEXGET_VERSION=$(curl -sX GET "https://api.github.com/repos/Flexget/Flexget/releases/latest" \
-                | grep "tag_name" \
-                | sed -e 's/.*v//' -e 's/",//'); \
+                | jq -r '.tag_name' \
+                | sed -e 's/v//'); \
             fi && \
             pip install --no-cache-dir \
                 flexget==${FLEXGET_VERSION} \

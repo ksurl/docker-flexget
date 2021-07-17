@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/github/v/tag/ksurl/docker-flexget?label=image%20version&logo=docker)](https://hub.docker.com/r/ksurl/flexget) [![](https://img.shields.io/docker/image-size/ksurl/flexget/latest?color=lightgrey&logo=Docker)]() [![](https://img.shields.io/github/workflow/status/ksurl/docker-flexget/build?label=build&logo=Docker)](https://github.com/ksurl/docker-flexget/actions?query=workflow%3Abuild)
 
-* Based on ghcr.io/ksurl/baseimage-python-alpine
+* Based on [ghcr.io/ksurl/baseimage-python-alpine](https://github.com/ksurl/docker-baseimage-python-alpine)
 * pysocks
 * transmission-rpc
 

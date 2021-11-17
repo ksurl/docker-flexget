@@ -1,4 +1,4 @@
-FROM        python:3.9-alpine
+FROM        python:3.9-alpine3.14
 
 ENV         PYTHONUNBUFFERED=1
 
@@ -27,7 +27,7 @@ RUN         echo "**** build flexget wheels ****" && \
 
 RUN         pip install -U pip && \
             pip wheel -e /flexget && \
-            pip wheel pysocks \
+            pip wheel pysocks && \
             pip wheel transmission-rpc
 
 WORKDIR     /flexget-ui-v2

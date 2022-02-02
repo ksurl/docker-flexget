@@ -79,4 +79,4 @@ HEALTHCHECK --interval=60s --timeout=15s --start-period=5s --retries=3 \
             CMD [ "/bin/sh", "-c", "/bin/netstat -an | /bin/grep -q 5050" ]
 
 EXPOSE      5050
-VOLUME      /config /downloads /media
+VOLUME      /config /data

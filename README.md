@@ -14,8 +14,7 @@
 
     docker run -d \
         --name=CONTAINER_NAME \
-        -v HOST_DOWNLOADS:/downloads \
-        -v HOST_MEDIA:/media \
+        -v HOST_DATA:/data \
         -v HOST_CONFIG:/config \
         -e LOG_FILE=/config/flexget.log
         -e LOG_LEVEL=info \
@@ -44,8 +43,7 @@
           - 5050:5050
         volumes:
           - <HOST>/config:/config
-          - <HOST_MNT>/downloads/flexget:/downloads
-          - <HOST_MNT>/media:/media
+          - <HOST_MNT>/data:/data
         restart: unless-stopped
 
 ### Parameters
@@ -59,5 +57,4 @@
 | `-e TZ` | Specify a timezone to use | `UTC` |
 | `-e VERSION` | Optional: Specify a version to use (defaults to installed version from build time). Valid input: `latest`, `docker`, `<specific version>` | `docker` |
 | `-v /config` | Config folder goes here | |
-| `-v /downloads` | Downloads go here | |
-| `-v /media` | Media goes here | |
+| `-v /data` | Downloads go here | |

@@ -14,7 +14,7 @@ fi
 
 # permissions
 chown -R abc:abc /config
-chown abc:abc /downloads
+chown abc:abc /data/downloads/flexget
 
 # set flexget version to install
 case ${VERSION} in

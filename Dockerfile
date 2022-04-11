@@ -4,7 +4,8 @@ ENV         PYTHONUNBUFFERED=1
 
 ARG         FLEXGET_VERSION
 
-RUN         echo "**** install build packages ****" && \
+RUN         set -x; \
+            echo "**** install build packages ****" && \
             apk add --no-cache --upgrade \
                 build-base \
                 ca-certificates \
@@ -18,20 +19,23 @@ RUN         echo "**** install build packages ****" && \
 
 WORKDIR     /wheels
 
-RUN         echo "**** build flexget wheels ****" && \
+RUN         set -x; \
+            echo "**** build flexget wheels ****" && \
             if [ -z ${FLEXGET_VERSION} ]; then \
                 FLEXGET_VERSION=$(curl -sX GET "https://api.github.com/repos/Flexget/Flexget/releases/latest" \
                 | jq -r '.tag_name'); \
             fi && \
             git clone --depth 1 --branch ${FLEXGET_VERSION} https://github.com/flexget/flexget /flexget
 
-RUN         pip install -U pip && \
+RUN         set -x; \
+            pip install -U pip && \
             pip wheel -e /flexget && \
             pip wheel pysocks && \
             pip wheel transmission-rpc
 
 WORKDIR     /flexget-ui-v2
-RUN         echo "**** download flexget web ui****" && \
+RUN         set -x; \
+            echo "**** download flexget web ui****" && \
             wget https://github.com/Flexget/webui/releases/latest/download/dist.zip && \
             unzip dist.zip && \
             rm dist.zip
@@ -50,7 +54,8 @@ ENV         PYTHONUNBUFFERED=1 \
             TERM=xterm-256color \
             VERSION=docker
 
-RUN         echo "**** install packages ****" && \
+RUN         set -x; \
+            echo "**** install packages ****" && \
             apk add --no-cache --upgrade \
                 ca-certificates \
                 curl \
@@ -59,7 +64,8 @@ RUN         echo "**** install packages ****" && \
 
 COPY        --from=0 /wheels /wheels
 
-RUN         echo "**** install flexget ****" && \
+RUN         set -x; \
+            echo "**** install flexget ****" && \
             pip install -U pip && \
             pip install --no-cache-dir --no-index \
                 -f /wheels \
@@ -70,7 +76,8 @@ RUN         echo "**** install flexget ****" && \
 
 COPY        --from=0 /flexget-ui-v2 /usr/local/lib/python3.9/site-packages/flexget/ui/v2/
 
-RUN         echo "**** cleanup ****" && \
+RUN         set -x; \
+            echo "**** cleanup ****" && \
             rm -rf /tmp/* /var/cache/apk/* /root/.cache
 
 COPY        root/ /

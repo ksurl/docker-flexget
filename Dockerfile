@@ -40,7 +40,7 @@ RUN         set -x; \
             unzip dist.zip && \
             rm dist.zip
 
-FROM        ghcr.io/ksurl/baseimage-python
+FROM        ghcr.io/ksurl/baseimage-python:1.5
 
 LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 

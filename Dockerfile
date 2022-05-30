@@ -40,7 +40,7 @@ RUN         set -x; \
             unzip dist.zip && \
             rm dist.zip
 
-FROM        ghcr.io/ksurl/baseimage-python:1.7
+FROM        python:3.10.4-alpine3.16
 
 LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 
@@ -51,16 +51,29 @@ WORKDIR     /config
 ENV         PYTHONUNBUFFERED=1 \
             LOG_FILE=/config/flexget.log \
             LOG_LEVEL=info \
+            S6_CMD_WAIT_FOR_SERVICES_MAXTIME=30000 \
             TERM=xterm-256color \
+            TZ=UTC \
             VERSION=docker
 
 RUN         set -x; \
             echo "**** install packages ****" && \
             apk add --no-cache --upgrade \
+                bash \
                 ca-certificates \
                 curl \
                 libstdc++ \
-                libressl-dev
+                libressl-dev \
+                s6-overlay \
+                shadow \
+                tzdata && \
+            echo "**** create user ****" && \
+            groupmod -g 1000 users && \
+            useradd -u 911 -U -d /config -s /bin/false abc && \
+            usermod -G users abc && \
+            mkdir -p /config && \
+            echo "**** disable root login ****" && \
+            sed -i -e 's/^root::/root:!:/' /etc/shadow
 
 COPY        --from=0 /wheels /wheels
 
@@ -74,7 +87,7 @@ RUN         set -x; \
                 transmission-rpc && \
             rm -rf /wheels
 
-COPY        --from=0 /flexget-ui-v2 /usr/local/lib/python3.9/site-packages/flexget/ui/v2/
+COPY        --from=0 /flexget-ui-v2 /usr/local/lib/python3.10/site-packages/flexget/ui/v2/
 
 RUN         set -x; \
             echo "**** cleanup ****" && \
@@ -87,3 +100,5 @@ HEALTHCHECK --interval=60s --timeout=15s --start-period=5s --retries=3 \
 
 EXPOSE      5050
 VOLUME      /config /data
+
+ENTRYPOINT [ "/init" ]

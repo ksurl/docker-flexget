@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bash
+#!/command/with-contenv bash
 
 exec \
       s6-setuidgid abc /usr/local/bin/flexget -c /config/config.yml \

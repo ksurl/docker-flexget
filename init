@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# set UID and GID
+PUID=${PUID:-911}
+PGID=${PGID:-911}
+
+echo '
+-------------------------------------
+GID/UID
+-------------------------------------'
+echo "
+User uid:    $PUID
+User gid:    $PGID
+-------------------------------------
+"
+
+# set permissions
+chown ${PUID}:${PGID} /defaults
+
+# set timezone
+echo "Setting timezone to $TZ."
+cp -f "/usr/share/zoneinfo/${TZ}" /etc/localtime && echo "${TZ}" > /etc/timezone
+
+# lock file cleanup
+rm -f /config/.config-lock 2>/dev/null
+
+# default config
+if [ ! -f /config/config.yml ]; then
+  cp -f /defaults/config.yml /config/config.yml
+fi
+
+# permissions
+chown -R ${PUID}:${PGID} /config
+if [ -d /data/downloads/flexget ]; then
+  chown ${PUID}:${PGID} /data/downloads/flexget
+fi
+
+# set flexget version to install
+case ${VERSION} in
+  latest)
+    echo "Updating to latest version of FlexGet."
+    pip install -U flexget
+    ;;
+  docker)
+    echo "Checking FlexGet version..."
+    flexget -V
+    ;;
+  *)
+    echo "Installing FlexGet $VERSION."
+    pip install -U "flexget==${VERSION}"
+    ;;
+esac
+
+su-exec ${PUID}:${PGID} /usr/local/bin/flexget -c /config/config.yml \
+      --logfile ${LOG_FILE} --loglevel ${LOG_LEVEL} daemon start --autoreload-config

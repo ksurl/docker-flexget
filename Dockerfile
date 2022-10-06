@@ -30,7 +30,6 @@ RUN         set -x; \
 RUN         set -x; \
             pip install -U pip && \
             pip wheel -e /flexget && \
-            pip wheel pysocks && \
             pip wheel transmission-rpc
 
 WORKDIR     /flexget-ui-v2
@@ -83,7 +82,6 @@ RUN         set -x; \
             pip install --no-cache-dir --no-index \
                 -f /wheels \
                 FlexGet \
-                pysocks \
                 transmission-rpc && \
             rm -rf /wheels
 

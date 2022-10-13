@@ -3,6 +3,7 @@ FROM        python:3.10.4-alpine3.16
 ENV         PYTHONUNBUFFERED=1
 
 ARG         FLEXGET_VERSION
+ARG         TRANSMISSIONRPC_VERSION
 
 RUN         set -x; \
             echo "**** install build packages ****" && \
@@ -19,20 +20,18 @@ RUN         set -x; \
 
 WORKDIR     /wheels
 
+COPY        requirements.txt ./
+
 RUN         set -x; \
             echo "**** build flexget wheels ****" && \
-            if [ -z ${FLEXGET_VERSION} ]; then \
-                FLEXGET_VERSION=$(curl -sX GET "https://api.github.com/repos/Flexget/Flexget/releases/latest" \
-                | jq -r '.tag_name'); \
-            fi && \
-            git clone --depth 1 --branch ${FLEXGET_VERSION} https://github.com/flexget/flexget /flexget
-
-RUN         set -x; \
+            FLEXGET_VERSION=$(cat ./requirements.txt | head -n -1 | awk 'BEGIN {FS="=="}; {print $2}') && \
+            TRANSMISSIONRPC_VERSION=$(cat ./requirements.txt | tail -1 | awk 'BEGIN {FS="=="}; {print $2}') && \
+            git clone --depth 1 --branch "v${FLEXGET_VERSION}" https://github.com/flexget/flexget /flexget && \
             pip install -U pip && \
             pip wheel -e /flexget && \
-            pip wheel transmission-rpc
+            pip wheel transmission-rpc==${TRANSMISSIONRPC_VERSION}
 
-WORKDIR     /flexget-ui-v2
+WORKDIR     /webui
 RUN         set -x; \
             echo "**** download flexget web ui****" && \
             wget https://github.com/Flexget/webui/releases/latest/download/dist.zip && \
@@ -85,7 +84,7 @@ RUN         set -x; \
                 transmission-rpc && \
             rm -rf /wheels
 
-COPY        --from=0 /flexget-ui-v2 /usr/local/lib/python3.10/site-packages/flexget/ui/v2/
+COPY        --from=0 /webui /usr/local/lib/python3.10/site-packages/flexget/ui/v2/
 
 RUN         set -x; \
             echo "**** cleanup ****" && \

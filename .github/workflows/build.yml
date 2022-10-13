@@ -17,6 +17,7 @@ jobs:
           title: "Starting new build"
           noprefix: true
           color: 0xf5d442
+
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -65,7 +66,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha, scope=${{ github.workflow }}

@@ -33,7 +33,10 @@ jobs:
         with:
           images: ${{ steps.image_names.outputs.images }}
           tags: |
-            type=ref,event=tag
+            #type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

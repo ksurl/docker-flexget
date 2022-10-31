@@ -1,4 +1,4 @@
-FROM        python:3.10-alpine3.16
+FROM        python:3.11.0-alpine3.16
 
 ENV         PYTHONUNBUFFERED=1
 
@@ -38,7 +38,7 @@ RUN         set -x; \
             unzip dist.zip && \
             rm dist.zip
 
-FROM        python:3.10-alpine3.16
+FROM        python:3.11.0-alpine3.16
 
 LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 

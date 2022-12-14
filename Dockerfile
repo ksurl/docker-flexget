@@ -84,7 +84,7 @@ RUN         set -x; \
                 transmission-rpc && \
             rm -rf /wheels
 
-COPY        --from=0 /webui /usr/local/lib/python3.10/site-packages/flexget/ui/v2/
+COPY        --from=0 /webui /usr/local/lib/python3.11/site-packages/flexget/ui/v2/
 
 RUN         set -x; \
             echo "**** cleanup ****" && \

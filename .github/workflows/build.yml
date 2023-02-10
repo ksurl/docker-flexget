@@ -25,15 +25,14 @@ jobs:
         id: image_names
         run: |
           IMAGES="${GITHUB_REPOSITORY/docker-/},ghcr.io/${GITHUB_REPOSITORY/docker-/}"
-          echo ::set-output name=images::${IMAGES}
+          echo "docker_images=$IMAGES" >> $GITHUB_ENV
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ steps.image_names.outputs.images }}
+          images: ${{ env.docker_images }}
           tags: |
-            #type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}

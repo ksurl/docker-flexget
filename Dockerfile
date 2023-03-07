@@ -1,9 +1,6 @@
-FROM        python:3.11-alpine3.17
+FROM        python:3.11.2-alpine3.17
 
 ENV         PYTHONUNBUFFERED=1
-
-ARG         FLEXGET_VERSION
-ARG         TRANSMISSIONRPC_VERSION
 
 RUN         set -x; \
             echo "**** install build packages ****" && \
@@ -24,8 +21,8 @@ COPY        requirements.txt ./
 
 RUN         set -x; \
             echo "**** build flexget wheels ****" && \
-            FLEXGET_VERSION=$(cat ./requirements.txt | head -n -1 | awk 'BEGIN {FS="=="}; {print $2}') && \
-            TRANSMISSIONRPC_VERSION=$(cat ./requirements.txt | tail -1 | awk 'BEGIN {FS="=="}; {print $2}') && \
+            FLEXGET_VERSION=$(cat ./requirements.txt | grep FlexGet | awk 'BEGIN {FS="=="}; {print $2}') && \
+            TRANSMISSIONRPC_VERSION=$(cat ./requirements.txt | grep transmission | awk 'BEGIN {FS="=="}; {print $2}') && \
             git clone --depth 1 --branch "v${FLEXGET_VERSION}" https://github.com/flexget/flexget /flexget && \
             pip install -U pip && \
             pip wheel -e /flexget && \
@@ -38,7 +35,7 @@ RUN         set -x; \
             unzip dist.zip && \
             rm dist.zip
 
-FROM        python:3.11-alpine3.17
+FROM        python:3.11.2-alpine3.17
 
 LABEL       org.opencontainers.image.source="https://github.com/ksurl/docker-flexget"
 

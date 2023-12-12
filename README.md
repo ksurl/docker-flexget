@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/github/v/tag/ksurl/docker-flexget?label=image%20version&logo=docker)](https://hub.docker.com/r/ksurl/flexget) [![](https://img.shields.io/docker/image-size/ksurl/flexget/latest?color=lightgrey&logo=Docker)]() [![](https://img.shields.io/github/actions/workflow/status/ksurl/docker-flexget/build.yml?label=build&logo=Docker)](https://github.com/ksurl/docker-flexget/actions/workflows/build.yml?query=workflow%3Abuild)
 
-* Based on [python:3.11-alpine3.17](https://hub.docker.com/_/python)
+* Based on [python:3.12-alpine3.17](https://hub.docker.com/_/python)
 * transmission-rpc
 
 ## Usage

@@ -1,4 +1,3 @@
-version: "3"
 services:
   flexget:
     image: ghcr.io/ksurl/flexget
